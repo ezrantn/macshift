@@ -2,19 +2,22 @@
 
 ## Overview
 
-Macshift is a simple command-line tool designed to help users easily manage and manipulate MAC addresses of network adapters on **Windows**. It allows you to list available network adapters, change the MAC address of a specified adapter to a randomly generated one, and restore the original MAC address of the adapter. This tool is especially useful when you need to troubleshoot or prevent issues caused by fixed MAC addresses (e.g., network lockouts or privacy concerns).
+A command-line tool for managing MAC addresses of network adapters on Windows.
 
-## Problem Statement
+## What is Macshift
 
-In many situations, a network device (e.g., laptop or PC) might get locked out of a network due to its MAC address being stuck on a switch or router. This can occur when a user connects to a neighbor's Wi-Fi and then the adapter's MAC address is associated with a specific port, preventing the device from reconnecting to other networks or causing issues with network access. Additionally, some users may want to mask their original MAC addresses for privacy or security reasons, especially when using public Wi-Fi networks.
+Macshift helps you change the MAC addresses of your network adapters. It's especially useful when:
+- Your device is having trouble connecting to networks (e.g., MAC address stuck on a switch/router)
+- You want to enhance your privacy on public networks
+- You need to bypass MAC address filtering
+- You're testing network security configurations
 
-### Why Do We Need Macshift?
+## Prerequisites
 
-- Network Access Issues: Sometimes, when a device's MAC address gets stuck on a network switch, it may prevent the device from reconnecting to a network. Macshift can change the MAC address to resolve such issues.
-
-- Privacy Concerns: Changing your MAC address can help ensure anonymity on public or shared networks, preventing tracking of your device's unique identifier.
-
-- Convenience: This tool automates the process of generating random MAC addresses, making it easy for users to change or restore their MAC addresses without having to manually modify network settings or dive into advanced configurations.
+- Windows operating system
+- Go 1.23 or higher
+- Administrator privileges
+- Network adapter that supports MAC address changes
 
 ## Installation
 
@@ -24,13 +27,16 @@ Run the following command:
 go install github.com/ezrantn/macshift@latest
 ```
 
-## Commands and Usage
+**Important**: Always run `macshift` as Administrator. To do this:
+1. Press `Windows + X`
+2. Select "Terminal (Admin)"
+3. Click "Yes" when prompted
 
-`macshift list`
+## Commands 
 
-- Description: Lists all available network adapters along with their names, descriptions, and MAC addresses.
+### List Network Adapters
 
-**Usage**
+Shows all available network adapters with their names and MAC addresses.
 
 ```shell
 macshift list
@@ -41,20 +47,18 @@ macshift list
 ```shell
 Available network adapters:
 
-Name: Local Area Connection
-Description: TAP-Windows Adapter V9 for OpenVPN Connect
+Name: Wi-Fi
+Description: Killer(R) Wi-Fi 6 AX1650i Wireless Network Adapter
 MAC: XX-XX-XX-XX-XX-XX
 
-Name: Wi-Fi
-Description: Killer(R) Wi-Fi 6 AX1650i 160MHz Wireless Network Adapter
+Name: Local Area Connection
+Description: TAP-Windows Adapter V9
 MAC: XX-XX-XX-XX-XX-XX
 ```
 
-`macshift change -i "Adapter Name"`
+### Change MAC Address
 
-- Description: Generates a random MAC address and changes the MAC address of the specified adapter. The `-i` flag is used to specify the adapter name.
-
-**Usage**
+Generates and applies a random MAC address for the specified adapter.
 
 ```shell
 macshift change -i "Wi-Fi"
@@ -67,13 +71,9 @@ Generated random MAC address: 26:a5:a3:5d:b3:39
 MAC address changed successfully to 26:a5:a3:5d:b3:39 on interface Wi-Fi
 ```
 
-This command will generate a new, random MAC address for the specified network adapter (e.g., "Wi-Fi") and apply the change.
+### Restore Original MAC Address
 
-`macshift restore -i "Adapter Name"`
-
-- Description: Restores the original MAC address of the specified adapter. The `-i` flag is used to specify the adapter name.
-
-**Usage**
+Returns the adapter to its original MAC address.
 
 ```shell
 macshift restore -i "Wi-Fi"
@@ -85,21 +85,16 @@ macshift restore -i "Wi-Fi"
 Original MAC address restored successfully on interface Wi-Fi
 ```
 
-This command will revert the MAC address of the "Wi-Fi" adapter to its original state that was previously recorded before any changes were made.
-
 ## Important Notes
 
-1. Running as Administrator
+1. Network Changes
 
-    - Press `Windows + X`
-    - Click "Windows PowerShell (Admin)"
-    - Click "Yes" when prompted
+   - Your network will disconnect briefly when changing MAC addresses
+   - This is normal - just wait a moment
+   - You may need to reconnect to Wi-Fi
 
-2. Network Changes
 
-    - Your network will disconnect briefly when changing MAC addresses
-    - This is normal - just wait a moment
-    - You may need to reconnect to Wi-Fi
+2. Some network adapters don't support MAC address changes
 
 ## Credits
 
