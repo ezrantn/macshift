@@ -10,6 +10,6 @@ var versionCmd = &cobra.Command{
 	Short: "Print the version number of the macshift",
 	Long:  `This command prints the current version of the macshift.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("1.0.0")
+		fmt.Println("0.1.1")
 	},
 }
